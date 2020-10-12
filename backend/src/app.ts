@@ -11,15 +11,7 @@ class App {
   public express: express.Application;
 
   private corsOptions = {
-    // origin: (origin, callback) => {
-    //   if (!config.APP) {
-    //     return callback(null, true);
-    //   }
-    //   if (!origin || config.APP !== origin) {
-    //     return callback(new Error("Not Found"), false);
-    //   }
-    //   return callback(null, true);
-    // },
+    origin: 'http://localhost:3000',
     credentials: true,
     allowedHeaders: [
       "Save-Data",
@@ -39,7 +31,7 @@ class App {
   }
 
   private setMiddlewares(): void {
-    this.express.use(cors(this.corsOptions));
+    this.express.use(cors());
     this.express.use(morgan("dev"));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));

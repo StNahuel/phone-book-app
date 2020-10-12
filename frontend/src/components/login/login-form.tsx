@@ -1,9 +1,13 @@
 import React from 'react'
 import { Formik, Form } from 'formik';
-import { loginValidationSchema } from '../utils/form-validation';
-import TextInput from './common/text-input';
+import { loginValidationSchema } from '../../utils/form-validation';
+import TextInput from '../common/text-input';
 
-const LoginForm = () => {
+type Props = {
+  onLogin: (formResult: any) => void
+}
+
+const LoginForm: React.FC<Props> = ({ onLogin }) => {
 
   const loginInitialValues = {
     email: '',
@@ -15,7 +19,7 @@ const LoginForm = () => {
       initialValues={loginInitialValues}
       validationSchema={loginValidationSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log('values: ', values);
+        onLogin(values);
         setSubmitting(false);
       }}
     >
