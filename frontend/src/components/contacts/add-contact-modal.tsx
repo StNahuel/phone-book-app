@@ -26,7 +26,7 @@ const AddContactModal: React.FC<Props> = ({ setShow, createContact }) => {
         setSubmitting(false);
       }}
     >
-      <Modal setShow={setShow}>
+      <Modal>
         <Form className='content'>
           <h2>New Contact</h2>
           <div className="fields">

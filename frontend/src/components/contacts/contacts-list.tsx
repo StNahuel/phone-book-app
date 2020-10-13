@@ -1,24 +1,22 @@
-import React, { useMemo } from 'react'
+import React, { SetStateAction, Dispatch } from 'react'
 import { useHistory } from 'react-router-dom';
 
 type Props = {
   contacts: any[];
+  setSelectedContact: Dispatch<SetStateAction<any>>;
 }
 
-const ContactsList: React.FC<Props> = ({ contacts }) => {
-  const history = useHistory();
-
+const ContactsList: React.FC<Props> = ({ contacts, setSelectedContact }) => {
   return (
     <div className="contacts-table">
       <ul className="columns">
         <li>Name</li>
         <li>Phone</li>
       </ul>
-      { contacts.map((c, idx) => (
-        /*onClick={() => history.push(`/contacts/${c.id}`)}*/
-        <ul key={idx} className="row" >
-          <li>{`${c.first_name} ${c.last_name}`}</li>
-          <li>{c.phone}</li>
+      { contacts.map((contact, idx) => (
+        <ul key={idx} className="row" onClick={() => setSelectedContact(contact)}>
+          <li>{`${contact.first_name} ${contact.last_name}`}</li>
+          <li>{contact.phone}</li>
         </ul>
       ))}
     </div>

@@ -1,12 +1,11 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import '../../styles/modal.css';
 
 type Props = {
-  children: JSX.Element;
-  setShow: Dispatch<SetStateAction<boolean>>;
+  children: JSX.Element | JSX.Element[];
 }
 
-const Modal: React.FC<Props> = ({ children, setShow }) => {
+const Modal: React.FC<Props> = ({ children }) => {
   return (
     <div className='overlay'>
       <div className="content">

@@ -6,15 +6,19 @@ import LoadingSpinner from '../components/common/loading-spinner';
 import AddContactModal from '../components/contacts/add-contact-modal';
 import { useToasts } from 'react-toast-notifications';
 import '../styles/contacts.css';
+import ContactDetailsModal from '../components/contacts/contact-details-modal';
 
 const ContactsContainer = () => {
   const { addToast } = useToasts();
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const [contacts, setContacts] = useState<RemoteData<any>>(notAsked());
   const [showAddContactModal, setShowAddContactModal] = useState<boolean>(false);
+  const [selectedContact, setSelectedContact] = useState<any>(undefined);
 
   useEffect(() => {
-    getContactsAction();
+    if(contacts.status === 'Not Asked'){
+      getContactsAction();
+    }
   }, [])
 
   const getContactsAction = async (): Promise<void> => {
@@ -48,11 +52,12 @@ const ContactsContainer = () => {
   ) : (
     <div className='contents'>
       <h1>Contacts</h1>
-      <ContactsList contacts={contacts.data.data} />
+      <ContactsList contacts={contacts.data.data} setSelectedContact={setSelectedContact} />
       <div className='add-contact-btn' onClick={() => setShowAddContactModal(true)}>
         <span>&#43;</span>
       </div>
       {showAddContactModal && <AddContactModal setShow={setShowAddContactModal} createContact={createNewContactAction} />}
+      {selectedContact && <ContactDetailsModal contact={selectedContact} hide={() => setSelectedContact(undefined)} />}
     </div>
   )
 }
