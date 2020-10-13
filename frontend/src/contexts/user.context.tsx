@@ -17,12 +17,10 @@ const UserContext = createContext<UserContextProps>
 const User: React.FC<any> = (props) => {
   const [user, setUser] = useState<RemoteData<any>>(notAsked());
   const [userCredentials, setUserCredentials] = useState(undefined);
-  const [userCookies, setUserCookies] = useState<any>(undefined);
 
   useEffect(() => {
-    const cookies: any = Cookies.get('loggedUser');
-    if(cookies){
-      const userData = JSON.parse(cookies);
+    const userData: any = Cookies.getJSON('loggedUser');
+    if(userData){
       if(userData){
         setUser(done(userData))
       }
@@ -39,7 +37,9 @@ const User: React.FC<any> = (props) => {
     setUser(loading());
     const res = await login(userCredentials);
     if(res.status === 'Done'){
-      Cookies.set('loggedUser', JSON.stringify(res.data.data));
+      const now = new Date();
+      const ms = 36000;
+      Cookies.set('loggedUser', JSON.stringify(res.data.data), { expires: now.getTime() + (ms*1000) });
     }
     setUser(res);
   }

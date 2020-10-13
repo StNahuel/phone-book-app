@@ -5,10 +5,6 @@ import { Route, Redirect } from 'react-router-dom';
 const PrivateRoute: React.FC<any> = (props) => {
   const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    console.log('tengo user?', user);
-  }, [user])
-
   if(user.status === 'Done'){
     return <Route {...props} />;
   } else if (user.status === 'Failed' || user.status === 'Not Asked'){

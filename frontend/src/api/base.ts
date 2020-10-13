@@ -23,5 +23,5 @@ apiClient.interceptors.request.use((config: any) => {
 
 })
 
-const { get, post, delete: destroy } = apiClient;
-export { get, post, destroy };
+const { get, post, put, delete: destroy } = apiClient;
+export { get, post, put, destroy };

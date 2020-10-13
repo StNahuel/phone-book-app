@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { where } from 'sequelize/types';
 import Contact from '../../models/contact.model';
 import { ResponseBody } from '../../utils/types';
 
@@ -30,8 +31,12 @@ export const createContact = async (req: Request, res: Response): Promise<Respon
 
 export const getContacts = async (req: Request, res: Response): Promise<Response<ResponseBody>> => {
   try {
-    const contacts = await Contact.findAll({ 
-      limit: 1000, 
+    const itemsPerPage = 20;
+    let page: string = req.query.page+'';
+
+    const contacts = await Contact.findAndCountAll({ 
+      limit: itemsPerPage,
+      offset: parseInt(page) * itemsPerPage,
       order: [
         ['first_name', 'ASC']
       ] 
@@ -39,7 +44,10 @@ export const getContacts = async (req: Request, res: Response): Promise<Response
     return res.status(200).json({
       success: true,
       message: 'Contacts successfully fetched.',
-      data: contacts
+      data: { 
+        page_items: itemsPerPage,
+        contacts,
+      }
     });
 
   } catch (error) {
@@ -91,6 +99,26 @@ export const deleteContact = async (req: Request, res: Response): Promise<Respon
       message: 'Contact deleted successfully.',
     });
     
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.toString()
+    })
+  }
+}
+
+export const updateContact = async (req: Request, res: Response): Promise<Response<ResponseBody>> => {
+  const { id } = req.params;
+
+  try {
+    
+    await Contact.update({ ...req.body }, { where: { id } });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Contact updated successfully',
+    })
+
   } catch (error) {
     return res.status(500).json({
       success: false,
