@@ -36,8 +36,6 @@ const LoginContainer = () => {
 
       } else if (user.status === 'Failed') {
         setShowLoading(false);
-
-        console.log(user.errorApi.message);
         addToast(`User not found`, {
           appearance: 'error',
           autoDismiss: true

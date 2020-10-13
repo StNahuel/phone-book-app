@@ -1,17 +1,27 @@
-import React from 'react'
-import { RemoteData } from '../../utils/remote-data';
+import React, { useMemo } from 'react'
+import { useHistory } from 'react-router-dom';
 
 type Props = {
-  contacts: RemoteData<any>;
+  contacts: any[];
 }
 
 const ContactsList: React.FC<Props> = ({ contacts }) => {
-  console.log('CONTACTS: ', contacts);
+  const history = useHistory();
 
   return (
-    <ul>
-      <li>{contacts.status}</li>
-    </ul>
+    <div className="contacts-table">
+      <ul className="columns">
+        <li>Name</li>
+        <li>Phone</li>
+      </ul>
+      { contacts.map((c, idx) => (
+        /*onClick={() => history.push(`/contacts/${c.id}`)}*/
+        <ul key={idx} className="row" >
+          <li>{`${c.first_name} ${c.last_name}`}</li>
+          <li>{c.phone}</li>
+        </ul>
+      ))}
+    </div>
   )
 }
 

@@ -7,17 +7,19 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config: any) => {
   const userData = Cookie.getJSON('loggedUser');
+  let token;
   if(userData){
-    console.log('interceptor has token', userData);
-    const token = userData.token;
-    return ({
-      ...config,
-      headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json'
-      }
-    })
+    token = userData.token;
   }
+  return ({
+  ...config,
+    headers: token ? {
+      'Authorization': token,
+      'Content-Type': 'application/json'
+    } : {
+      'Content-Type': 'application/json'
+    } 
+  })
 
 })
 

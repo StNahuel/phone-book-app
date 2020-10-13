@@ -1,0 +1,2 @@
+.overlay { position: fixed; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; top: 0; left: 0; background: rgba(0,0,0,0.6); z-index: 99999; overflow: visible; }
+.overlay .content { background: #FFF; overflow-y: auto; }
